@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<title>form파일</title>
+		<script>
+			// 확인버튼을 클릭할때 input text가 없으면
+			//이름을 입력하셔야 이동이 가능합니다. inputbox 포커스 되도록 해보세요.
+			
+			$(function(){
+				$("#btn").click(function(){
+					
+					if($("#name").val()==""){
+						alert("이름을 입력하셔야 이동이 가능합니다.");
+						$("#name").focus();
+						return false;
+					}
+					frm.submit();
+					
+					 var name = document.querySelector("#name").value;
+					if(name==""){
+						alert("이름을 입력하셔야 이동이 가능합니다.")
+					document.querySelector("#name").focus()
+					return false;
+					}
+				
+				});
+				
+				
+				//자바스크립트
+				function checkBtn(){
+				//자바스크리트 구문 : name = document.querySelector("#name").value;
+				// document.getElementsById(name);
+				//자바스크리트 구문 : name = document.querySelector(".name").value;
+				// document.getElementsByClassName(name);
+					if(document.querySelector("#name").value==""){
+						alert("이름을 입력하셔야 이동이 가능합니다.");
+						document.querySelector("#name").focus();
+						return false;
+					}
+					frm.submit();
+				}
+				
+			});
+			
+			
+			
+			
+		</script>
+	
+	</head>
+	<body>
+		<form name="frm" method="post" action="http://localhost:8181/jsp1030/Ser06">
+			<label>이름</label>
+			<input type="text" name="name" id="name">
+			<input type="button" onclick="checkBtn()" id="btn" value="확인">
+			
+		</form>
+	
+	</body>
+</html>
