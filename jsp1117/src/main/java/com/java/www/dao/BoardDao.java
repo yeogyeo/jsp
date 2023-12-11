@@ -22,7 +22,7 @@ public class BoardDao {
 	int bno,bgroup,bstep,bindent,bhit;
 	String btitle,bcontent,id,bfile,query;
 	Timestamp bdate;
-	int result;
+	int result,listCount;
 	
 	//getConnection
 		public Connection getConnection() {
@@ -188,6 +188,83 @@ public class BoardDao {
 			
 			return result;
 		}
+
+		//6. 검색 - select
+		public ArrayList<BoardDto> bSearch(String bcategory, String bsearch) {
+			
+			try {
+				conn = getConnection();
+				System.out.println("dao bSearch bcategory : "+bcategory);
+				// bcategory : all, btitle, bcontent
+				if(bcategory.equals("all")) {
+					query="select * from board where btitle like '%'||?||'%' or bcontent like '%'||?||'%'";
+					pstmt = conn.prepareStatement(query);
+					pstmt.setString(1, bsearch);
+					pstmt.setString(2, bsearch);
+				}else if(bcategory.equals("btitle")) {
+					query="select * from board where btitle like '%'||?||'%'";
+					pstmt = conn.prepareStatement(query);
+					pstmt.setString(1, bsearch);
+				}else {
+					query="select * from board where bcontent like '%'||?||'%'";
+					pstmt = conn.prepareStatement(query);
+					pstmt.setString(1, bsearch);
+					
+				} // else
+				
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					
+					bno = rs.getInt("bno");
+					btitle = rs.getString("btitle");
+					bcontent = rs.getString("bcontent");
+					bdate = rs.getTimestamp("bdate");
+					id = rs.getString("id");
+					bgroup = rs.getInt("bgroup");
+					bstep = rs.getInt("bstep");
+					bindent = rs.getInt("bindent");
+					bhit = rs.getInt("bhit");
+					bfile = rs.getString("bfile");
+					list.add(new BoardDto(bno, btitle, bcontent, bdate, id, bgroup, bstep, bindent, bhit, bfile));
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if(rs!=null) rs.close();
+					if(pstmt!=null) pstmt.close();
+					if(conn!=null) conn.close();
+				} catch (Exception e2) {e2.printStackTrace();}
+					
+			}//finally
+			return list;
+		}//bSearch
+
+		//7. 전체게시글 수 - select
+		public int listCount() {
+			try {
+				conn = getConnection();
+				query="select count(*) listCount from board";
+				pstmt = conn.prepareStatement(query);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					listCount = rs.getInt("listCount");
+					System.out.println("listCount 수 : "+listCount);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if(rs!=null) rs.close();
+					if(pstmt!=null) pstmt.close();
+					if(conn!=null) conn.close();
+				} catch (Exception e2) {e2.printStackTrace();}
+					
+			}//finally
+			return listCount;
+		}//listCount
 
 
 }//class

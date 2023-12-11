@@ -14,6 +14,7 @@ import com.java.www.service.Service;
 import com.java.www.service.BDelelteService;
 import com.java.www.service.BInsertOneService;
 import com.java.www.service.BListService;
+import com.java.www.service.BSearchService;
 import com.java.www.service.BSelectOneService;
 import com.java.www.service.BUpdateService;
 
@@ -89,13 +90,20 @@ public class FController extends HttpServlet {
 			System.out.println("FController :  doBUpdate.jsp호출");
 			url = "doBUpdate.jsp";
 			break;
-		case "/bDelete.do": // 4. 게시글 삭제  - delete
+		case "/bDelete.do": // 5. 게시글 삭제  - delete
 			service = new BDelelteService();
 			service.execute(request, response);
 			//확인용
 			System.out.println("bno : "+request.getParameter("bno"));
 			System.out.println("FController :  bDelete.jsp호출");
 			url = "bDelete.jsp";
+			break;
+		case "/bsearch.do": // 6. 검색 - select
+			service = new BSearchService();
+			service.execute(request, response);
+			//확인용
+			System.out.println("FController :  bList.jsp호출");
+			url = "bList.jsp";
 			break;
 			
 		

@@ -10,10 +10,12 @@
 		<meta charset="UTF-8">
 		<title>회원전체리스트</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
 		<style>
 		   *{margin:0; padding:0;}
+		   a{text-decoration: none; color:black;}
 		   div{width:1000px; margin:30px auto; text-align: center;}
-		   h1{margin-bottom:30px; }
+		   h1{margin-bottom:10px; }
 		   table,th,td{border:1px solid black; border-collapse: collapse;
 		   font-size: 16px; }
 		   th,td{width:200px; height:40px; }
@@ -22,11 +24,49 @@
 			span{ display:inline-block; line-height:30px;
 			width:30px; height:30px; border:1px solid black; text-align: center;}
 			span:hover{background:#b06482; color:white; font-weight: 700;}
+			
+			.wrapper{width:700px; height: 70px; margin-top:10px;}
+			#bcategory{width:80px; height:40px; border:1px solid #666; 
+			padding:5px; font-size:16px;}
+			.title{width:200px; height:40px; display: inline-block;}
+			#bsearch{width:200px; height:38px; border:1px solid #666; font-size:16px;}
+			#sbtn{width:40px; height:40px; background:#666;}
+			.fas{font-weight:900; color:white; }
 		</style>
+		<script>
+		  $(function(){
+			 $("#sbtn").click(function(){
+				// alert("test");
+				 if($("#bsearch").val()==""){
+					 alert("검색어를 입력하셔야 합니다.");
+					 $("#bsearch").focus();
+					 return false;
+				 }
+				 sFrm.submit();
+			 }) ;
+		  });
+		</script>
 	</head>
 	<body>
 		<div>
 		   <h1>게시판</h1>
+		   <!--  검색부분 -->
+    	<div class="wrapper">
+	      <form action="bsearch.do" name="sFrm" method="post">
+	      <!-- 카테고리부분 -->
+	        <select name="bcategory" id="bcategory">
+	          <option value="all">전체</option>
+	          <option value="btitle">제목</option>
+	          <option value="bcontent">내용</option>
+	        </select>
+	        <!-- 검색어 부분 -->
+        <div class="title">
+          <input type="text" size="16" name="bsearch" id="bsearch">
+        </div>
+        <button type="button" id="sbtn"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
+		   
 		   <table>
 		   <colgroup>
 		   	<col width="12%">
@@ -42,6 +82,9 @@
 		       <th>작성일</th>
 		       <th>조회수</th>
 		     </tr>
+		     <c:if test="${listCount == 0}">
+		       <tr> <td colspan="5">파일이 없습니다.</td></tr>
+		     </c:if>
 		     <c:forEach items="${list}" var="bdto">
 			     <tr>
 			       <td>${bdto.bno}</td>
@@ -53,18 +96,20 @@
 		     </c:forEach>
 		   </table>
 		   <div id="n">
-				<a href="#"><span>◀</span></a>
-				<a href="#"><span>1</span></a>
-				<a href="#"><span>2</span></a>
-				<a href="#"><span>3</span></a>
-				<a href="#"><span>4</span></a>
-				<a href="#"><span>5</span></a>
-				<a href="#"><span>6</span></a>
-				<a href="#"><span>7</span></a>
-				<a href="#"><span>8</span></a>
-				<a href="#"><span>9</span></a>
-				<a href="#"><span>10</span></a>
-				<a href="#"><span>▶</span></a>
+				 <a href="#"><span><i class="fa fa-angle-double-left" aria-hidden="true"></i></span></a>
+		      <a href="#"><span><i class="fa fa-angle-left" aria-hidden="true"></i></span></a>
+		      <a href="#"><span>1</span></a>
+		      <a href="#"><span>2</span></a>
+		      <a href="#"><span>3</span></a>
+		      <a href="#"><span>4</span></a>
+		      <a href="#"><span>5</span></a>
+		      <a href="#"><span>6</span></a>
+		      <a href="#"><span>7</span></a>
+		      <a href="#"><span>8</span></a>
+		      <a href="#"><span>9</span></a>
+		      <a href="#"><span>10</span></a>
+		      <a href="#"><span><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
+		      <a href="#"><span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span></a>
 				</div>
 		   <a href="bInsert.do"><button type="button">글쓰기</button></a>
 		   <a href="index.do"><button type="button">홈으로</button></a>
